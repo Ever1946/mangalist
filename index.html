@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <title>Lista de Mangas</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="display-4 text-center">
+        <i class="fas fa-book-open text-primary"></i> My<span class="text-info"
+          >Manga</span>List
+      </h1>
+      <form id="manga-form">
+          <div class="form-group">
+              <label for="title">Titulo</label>
+              <input type="text" id="titulo" 
+              class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="autor">Autor</label>
+            <input type="text" id="autor" 
+            class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input type="text" id="isbn" 
+            class="form-control">
+        </div><br>
+
+        <input type="submit" value="Agregar Manga"
+        class="btn btn-primary btn-block">
+      </form>
+      <table class="table table-striped mt-5">
+          <thead>
+              <tr>
+                  <th>Titulo</th>
+                  <th>Autor</th>
+                  <th>ISBN#</th>
+                  <th></th>
+              </tr>
+          </thead>
+          <tbody id="manga-list"></tbody>
+      </table>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
