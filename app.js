@@ -46,6 +46,27 @@ class UI{
         lista.appendChild(row);
     }
 
+
+    static deleteManga(el){
+        if(el.classList.contains('delete')){
+            el.parentElement.parentElement.remove();
+        }
+    }
+
+
+    static showAlert(message, className){
+        const div = document.createElement('div');
+        div.className =  `alert alert-${className}`;
+        div.appendChild(document.createTextNode(message));
+        const container = document.querySelector('.container');
+        const form = document.querySelector('#manga-form');
+        container.insertBefore(div, form);
+
+
+
+        setTimeout(() => document.querySelector('.alert').remove(), 2500);
+    }
+
     static clearFields(){
         document.querySelector('#titulo').value = '';
         document.querySelector('#autor').value = '';
@@ -53,7 +74,32 @@ class UI{
     }
 }
 
+class Storage{
+    static getMangas(){
+        let mangas;
+        if (localStorage.getItem('mangas') === null) {
+            mangas = [];
+        }else{
+            mangas =JSON.parse(localStorage.getItem('mangas'));
+        }
 
+    }
+
+    static addMangas(manga){
+        const mangas = Store.getMangas();
+
+        mangas.push(manga);
+
+        localStorage.setItem('mangas', JSON.stringify(mangas));
+
+    }
+
+    static removeMangas(isbn){
+        const mangas
+
+    }
+
+}
 document.addEventListener('DOMContentLoaded', UI.displayMangas);
 
 document.querySelector('#manga-form').addEventListener('submit', (e) =>  {
@@ -66,14 +112,34 @@ document.querySelector('#manga-form').addEventListener('submit', (e) =>  {
     const autor = document.querySelector('#autor').value;
     const isbn = document.querySelector('#isbn').value;
     
-    const manga = new Manga(titulo, autor, isbn);
+
+    //Validate
+    if (titulo === '' || autor === '' || isbn === '') {
+        UI.showAlert('SOS PELOTUDO NO PODES DEJAR ESPACIOS VACIOS', 'info');
+    }else{
+
+        const manga = new Manga(titulo, autor, isbn);
     
-    UI.addMangaToList(manga);
+        UI.addMangaToList(manga);
 
-
-    UI.clearFields();
+        UI.showAlert('Manga agregado', 'success');
     
-}
+        UI.clearFields();
+    }
 
 
-);
+
+    
+});
+
+
+document.querySelector('#manga-list').addEventListener('click', (e) =>{
+    UI.deleteManga(e.target);
+
+    UI.showAlert('Manga eliminado', 'danger');
+
+
+} )
+
+
+
