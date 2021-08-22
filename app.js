@@ -12,22 +12,7 @@ class Manga{
 
 class UI{
     static displayMangas()  {
-        const StoredManga = [
-            {
-                titulo: 'Manga 1',
-                autor: 'Kiyomasa',
-                isbn: 'EC001'
-            },
-            {
-                titulo: 'Manga 2',
-                autor: 'Nishimura',
-                isbn: 'EC002'
-            }
-
-
-        ];
-
-        const mangas = StoredManga;
+        const mangas = Storage.getMangas();
 
         mangas.forEach((manga) => UI.addMangaToList(manga));
     }
@@ -83,10 +68,12 @@ class Storage{
             mangas =JSON.parse(localStorage.getItem('mangas'));
         }
 
+        return mangas;
+
     }
 
     static addMangas(manga){
-        const mangas = Store.getMangas();
+        const mangas = Storage.getMangas();
 
         mangas.push(manga);
 
@@ -95,7 +82,16 @@ class Storage{
     }
 
     static removeMangas(isbn){
-        const mangas
+        const mangas = Storage.getMangas();
+
+        mangas.forEach((manga, index) => {
+            if (manga.isbn === isbn) {
+                mangas.splice(index, 1);
+            }
+
+        });
+
+        localStorage.setItem('mangas', JSON.stringify(mangas));
 
     }
 
@@ -122,6 +118,8 @@ document.querySelector('#manga-form').addEventListener('submit', (e) =>  {
     
         UI.addMangaToList(manga);
 
+        Storage.addMangas(manga);
+
         UI.showAlert('Manga agregado', 'success');
     
         UI.clearFields();
@@ -134,7 +132,10 @@ document.querySelector('#manga-form').addEventListener('submit', (e) =>  {
 
 
 document.querySelector('#manga-list').addEventListener('click', (e) =>{
+
     UI.deleteManga(e.target);
+
+    Storage.removeMangas(e.target.parentElement.previousElementSibling.textContent);
 
     UI.showAlert('Manga eliminado', 'danger');
 
